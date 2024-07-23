@@ -1,0 +1,3 @@
+kube-state-metrics:
+  metricLabelsAllowlist:
+    - pods=[app],nodes=[kubernetes.azure.com/agentpool,kubernetes.azure.com/cluster,kubernetes.azure.com/nodepool-type]

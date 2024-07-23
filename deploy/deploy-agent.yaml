@@ -1,0 +1,31 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: metrics-exporter-job
+spec:
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 1
+  concurrencyPolicy: Forbid
+  schedule: "0 */8 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: metrics-exporter
+              image: cloudctrlofficial/metrics-exporter:latest
+              imagePullPolicy: Always
+              env:
+                - name: "CloudCtrl__ClusterName"
+                  value: "k8s-cluster"
+                - name: "CloudCtrl__ApiKey"
+                  value: "<CloudCtrl_API_KEY>"
+                - name: "CloudCtrl__TenantId"
+                  value: "<CloudCtrl_TENANT_ID>"
+                - name: "CloudCtrl__CloudAccountId"
+                  value: "<CloudCtrl_CLOUD_ACCOUNT_ID>"
+                - name: "Metrics__HostName"
+                  value: "prometheus-kube-prometheus-prometheus"
+                - name: "Metrics__Port"
+                  value: "9090"
+          restartPolicy: OnFailure

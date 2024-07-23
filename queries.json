@@ -1,0 +1,11 @@
+{
+  "cpu_usage": "sum(rate(container_cpu_usage_seconds_total{pod!=\"\", container!=\"\", container!=\"POD\", instance!=\"\"}[1d])) by (namespace, node, pod)",
+  "memory_usage": "sum(sum_over_time(container_memory_working_set_bytes{pod!=\"\", container!=\"\", container!=\"POD\", instance!=\"\"}[1d]) / (24*60*2)) by (namespace, node, pod)",
+  "cpu_requests": "sum(sum_over_time(kube_pod_container_resource_requests{pod != \"\", container != \"\",container != \"POD\", instance != \"\",resource=\"cpu\"}[1d]) / (24*60*2)) by (namespace, node, pod)",
+  "memory_requests": "sum(sum_over_time(kube_pod_container_resource_requests{pod != \"\", container != \"\",container != \"POD\", instance != \"\",resource=\"memory\"}[1d]) / (24*60*2)) by (namespace, node, pod)",
+  "node_cpu_cores": "avg(sum_over_time(kube_node_status_capacity{resource=\"cpu\"}[1d]) / (24*60*2)) by (node)",
+  "node_memory_bytes": "avg(sum_over_time(kube_node_status_capacity{resource=\"memory\"}[1d]) / (24*60*2)) by (node)",
+  "pod_labels": "avg_over_time(kube_pod_labels[1d])",
+  "node_labels": "avg_over_time(kube_node_labels[1d])",
+  "kube_node_info": "avg_over_time(kube_node_info[1d])"
+}
